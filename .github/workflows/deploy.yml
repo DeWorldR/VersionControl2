@@ -1,12 +1,15 @@
 name: CI/CD Pipeline for Quasar
+
 on:
   push:
     branches: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -28,11 +31,13 @@ jobs:
           npx quasar build
 
       - name: Copy index.html to 404.html
-        if: github.ref == 'refs/heads/master'
+        if: |
+          github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         run: cp dist/spa/index.html dist/spa/404.html
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/master'
+        if: |
+          github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
