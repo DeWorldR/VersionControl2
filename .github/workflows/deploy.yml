@@ -1,9 +1,11 @@
 name: CI/CD Pipeline for Quasar
+
 on:
   push:
     branches: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -35,6 +37,6 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}  # ใช้ GH_TOKEN จาก GitHub Secrets
           publish_dir: ./dist/spa
           publish_branch: gh-pages
